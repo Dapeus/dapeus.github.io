@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>awk learning note | Dapeus Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/latest/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/grids-responsive-min.min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/latest/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//lib.baomitu.com/clipboard.js/latest/clipboard.min.js"></script><script type="text/javascript" src="//lib.baomitu.com/toastr.js/latest/toastr.min.js"></script><link rel="stylesheet" href="//lib.baomitu.com/toastr.js/latest/toastr.min.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">awk learning note</h1><a id="logo" href="/.">Dapeus Blog</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">awk learning note</h1><div class="post-meta">2022-09-21</div><div class="post-content"><h2 id="Some-examples"><a href="#Some-examples" class="headerlink" title="Some examples"></a>Some examples</h2><p>employee.txt</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ajay manager account 45000</span><br><span class="line">sunil clerk account 25000</span><br><span class="line">varun manager sales 50000</span><br><span class="line">amit manager account 47000</span><br><span class="line">tarun peon sales 15000</span><br><span class="line">deepak clerk sales 23000</span><br><span class="line">sunil peon sales 13000</span><br><span class="line">satvik director purchase 80000</span><br></pre></td></tr></table></figure>
+
+<p><strong>1. Default behavior of Awk:</strong> By default Awk prints every line of data from the specified file.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;&#123;print&#125;&#x27;</span> employee.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ajay manager account 45000</span><br><span class="line">sunil clerk account 25000</span><br><span class="line">varun manager sales 50000</span><br><span class="line">amit manager account 47000</span><br><span class="line">tarun peon sales 15000</span><br><span class="line">deepak clerk sales 23000</span><br><span class="line">sunil peon sales 13000</span><br><span class="line">satvik director purchase 80000</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. Print the lines which match the given pattern.</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk &#x27;/manager/ &#123;print&#125;&#x27; employee.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ajay manager account 45000</span><br><span class="line">varun manager sales 50000</span><br><span class="line">amit manager account 47000</span><br></pre></td></tr></table></figure>
+
+<p><strong>Built-In Variables In Awk</strong></p>
+<p>Awk’s built-in variables include the field variables—$1, $2, $3, and so on ($0 is the entire line) — that break a line of text into individual words or pieces called fiel</p>
+<p><strong>Input:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;&#123;print $1,$2&#125;&#x27;</span> employee.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ajay manager</span><br><span class="line">sunil clerk</span><br><span class="line">varun manager</span><br><span class="line">amit manager</span><br><span class="line">tarun peon</span><br><span class="line">deepak clerk</span><br><span class="line">sunil peon</span><br><span class="line">satvik director</span><br></pre></td></tr></table></figure>
+
+<p><strong>Input:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;&#123;print $0&#125;&#x27;</span> employee.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ajay manager account 45000</span><br><span class="line">sunil clerk account 25000</span><br><span class="line">varun manager sales 50000</span><br><span class="line">amit manager account 47000</span><br><span class="line">tarun peon sales 15000</span><br><span class="line">deepak clerk sales 23000</span><br><span class="line">sunil peon sales 13000</span><br><span class="line">satvik director purchase 80000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>NR:</strong> NR command keeps a current count of the number of input records. Remember that records are usually lines. Awk command performs the pattern&#x2F;action statements once for each record in a file.</li>
+<li><strong>NF:</strong> NF command keeps a count of the number of fields within the current input record.</li>
+<li><strong>FS:</strong> FS command contains the field separator character which is used to divide fields on the input line. The default is “white space”, meaning space and tab characters. FS can be reassigned to another character (typically in BEGIN) to change the field separator.</li>
+<li><strong>RS:</strong> RS command stores the current record separator character. Since, by default, an input line is the input record, the default record separator character is a newline.</li>
+<li><strong>OFS:</strong> OFS command stores the output field separator, which separates the fields when Awk prints them. The default is a blank space. Whenever print has several parameters separated with commas, it will print the value of OFS in between each parameter.</li>
+<li><strong>ORS:</strong> ORS command stores the output record separator, which separates the output lines when Awk prints them. The default is a newline character. print automatically outputs the contents of ORS at the end of whatever it is given to print.</li>
+</ul>
+<p><strong>Input:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;&#123;print NR, $0&#125;&#x27;</span> employee.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1 ajay manager account 45000</span><br><span class="line">2 sunil clerk account 25000</span><br><span class="line">3 varun manager sales 50000</span><br><span class="line">4 amit manager account 47000</span><br><span class="line">5 tarun peon sales 15000</span><br><span class="line">6 deepak clerk sales 23000</span><br><span class="line">7 sunil peon sales 13000</span><br><span class="line">8 satvik director purchase 80000</span><br></pre></td></tr></table></figure>
+
+<p><strong>Use of NF built-in variables (Display Last Field)</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk <span class="string">&#x27;&#123;print $1,$NF&#125;&#x27;</span> employee.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ajay 45000</span><br><span class="line">sunil 25000</span><br><span class="line">varun 50000</span><br><span class="line">amit 47000</span><br><span class="line">tarun 15000</span><br><span class="line">deepak 23000</span><br><span class="line">sunil 13000</span><br><span class="line">satvik 80000</span><br></pre></td></tr></table></figure>
+
+<p><strong>Another use of NR built-in variables (Display Line From 3 to 6)</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk <span class="string">&#x27;NR==3, NR==6 &#123;print NR,$0&#125;&#x27;</span> employee.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">3 varun manager sales 50000</span><br><span class="line">4 amit manager account 47000</span><br><span class="line">5 tarun peon sales 15000</span><br><span class="line">6 deepak clerk sales 23000</span><br></pre></td></tr></table></figure>
+
+<h2 id="More-Examples"><a href="#More-Examples" class="headerlink" title="More Examples"></a>More Examples</h2><p>geekforgeeks.txt</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A    B    C</span><br><span class="line">Tarun    A12    1</span><br><span class="line">Man    B6    2</span><br><span class="line">Praveen    M42    3</span><br></pre></td></tr></table></figure>
+
+<p><strong>1) To print the first item along with the row number(NR) separated with ” – “ from each line in geeksforgeeks.txt:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;&#123;print NR &quot;- &quot; $1&#125;&#x27;</span> geekforgeeks.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1- A</span><br><span class="line">2- Tarun</span><br><span class="line">3- Man</span><br><span class="line">4- Praveen</span><br></pre></td></tr></table></figure>
+
+<p><strong>2) To return the second column&#x2F;item from geeksforgeeks.txt:</strong></p>
+<p>The question should be:- To return the second column&#x2F;item from geeksforgeeks.txt:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> geekforgeeks.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">B</span><br><span class="line">A12</span><br><span class="line">B6</span><br><span class="line">M42</span><br></pre></td></tr></table></figure>
+
+<p><strong>3) To print any non empty line if present</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;NF &lt;= 0 &#123;print NR&#125;&#x27;</span> geekforgeeks.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NULL</span><br></pre></td></tr></table></figure>
+
+<p><strong>4) To find the length of the longest line present in the file:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;&#123; if (length($0) &gt; max) max = length($0) &#125; END &#123;print max&#125;&#x27;</span> geekforgeeks.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">19</span><br></pre></td></tr></table></figure>
+
+<p><strong>5) To count the lines in a file:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;END &#123;print NR&#125;&#x27;</span> geekforgeeks.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4</span><br></pre></td></tr></table></figure>
+
+<p><strong>6) Printing lines with more than 10 characters:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;length($0) &gt; 10&#x27;</span> geekforgeeks.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A    B    C</span><br><span class="line">Tarun    A12    1</span><br><span class="line">Man    B6    2</span><br><span class="line">Praveen    M42    3</span><br></pre></td></tr></table></figure>
+
+<p><strong>7) To find&#x2F;check for any string in any specific column:</strong></p>
+<p><strong>Input:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;&#123; if($2 == &quot;B6&quot;) print $0; &#125;&#x27;</span> geekforgeeks.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Man    B6    2</span><br></pre></td></tr></table></figure>
+
+<p><strong>8) To print the squares of first numbers from 1 to n say 6:</strong></p>
+<p><strong>Input:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;BEGIN &#123; for(i=1;i&lt;=6;i++) print &quot;square of&quot;, i, &quot;is&quot;, i*i; &#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Output:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">square of 1 is 1</span><br><span class="line">square of 2 is 4</span><br><span class="line">square of 3 is 9</span><br><span class="line">square of 4 is 16</span><br><span class="line">square of 5 is 25</span><br><span class="line">square of 6 is 36</span><br></pre></td></tr></table></figure>
+</div><div class="tags"><a href="/tags/Linux"><i class="fa fa-tag">Linux</i></a></div><div class="post-nav"><a class="next" href="/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/">C++构造析构顺序</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://example.com"/></form></div><div class="widget"><div class="author-info"><a class="info-avatar" href="/about/" title="关于"><img src="/img/avatar.jpg"/></a><p>May you find your worth in waking world.</p><a class="info-icon" href="https://github.com/dapeus" title="Github" target="_blank" style="margin-inline:5px"> <i class="fa fa-github-square" style="margin-inline:5px"></i></a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/C-C/" style="font-size: 15px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2022/09/21/awk-learning-note/">awk learning note</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/">C++构造析构顺序</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/09/20/sizeof%E6%9D%82%E8%B0%88/">sizeof杂谈、内存对齐</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">Dapeus Blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.js"></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0"></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
