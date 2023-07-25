@@ -1,4 +1,166 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>C++构造析构顺序 | Dapeus Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/latest/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/grids-responsive-min.min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/latest/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//lib.baomitu.com/clipboard.js/latest/clipboard.min.js"></script><script type="text/javascript" src="//lib.baomitu.com/toastr.js/latest/toastr.min.js"></script><link rel="stylesheet" href="//lib.baomitu.com/toastr.js/latest/toastr.min.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">C++构造析构顺序</h1><a id="logo" href="/.">Dapeus Blog</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">C++构造析构顺序</h1><div class="post-meta">2022-09-21</div><div class="post-content"><p>| 本文主要讲解了C++常见的类的构造析构顺序。</p>
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="本文主要讲解了C++常见的类的构造析构顺序。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++构造析构顺序">
+<meta property="og:url" content="http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/index.html">
+<meta property="og:site_name" content="Dapeus Blog">
+<meta property="og:description" content="本文主要讲解了C++常见的类的构造析构顺序。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-21T13:54:51.000Z">
+<meta property="article:modified_time" content="2022-09-21T13:58:21.777Z">
+<meta property="article:author" content="Dapeus">
+<meta property="article:tag" content="C&#x2F;C++">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>C++构造析构顺序</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/09/21/awk-learning-note/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/09/20/sizeof%E6%9D%82%E8%B0%88/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&text=C++构造析构顺序"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&title=C++构造析构顺序"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&is_video=false&description=C++构造析构顺序"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++构造析构顺序&body=Check out this article: http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&title=C++构造析构顺序"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&title=C++构造析构顺序"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&title=C++构造析构顺序"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&title=C++构造析构顺序"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&name=C++构造析构顺序&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&t=C++构造析构顺序"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E6%9E%84%E9%80%A0%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">继承构造顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E4%BB%A3%E7%BB%A7%E6%89%BF%E6%9E%84%E9%80%A0%E9%A1%BA%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">多代继承构造顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E6%9E%84%E9%80%A0%E9%A1%BA%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">初始化列表成员变量构造顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E4%B8%8E%E5%88%97%E8%A1%A8%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">继承与列表初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E7%BB%A7%E6%89%BF%EF%BC%8C%E7%BB%A7%E6%89%BF%EF%BC%8C%E4%B8%8E%E5%88%97%E8%A1%A8%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">5.</span> <span class="toc-text">虚拟继承，继承，与列表初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">6.</span> <span class="toc-text">参考文章</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        C++构造析构顺序
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Dapeus</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-09-21T13:54:51.000Z" class="dt-published" itemprop="datePublished">2022-09-21</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/C-C/" rel="tag">C/C++</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>| 本文主要讲解了C++常见的类的构造析构顺序。</p>
 <p>构造先构造基类，然后是派生类（当前类），析构顺序相反，先析构派生类（当前类），其次是基类。</p>
 <p>可以先得出构造顺序，然后reverse即是析构顺序。</p>
 <h2 id="继承构造顺序"><a href="#继承构造顺序" class="headerlink" title="继承构造顺序"></a>继承构造顺序</h2><p>根据继承列表依次构造。</p>
@@ -32,7 +194,146 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ctor A_3</span><br><span class="line">ctor A_1</span><br><span class="line">ctor A_2</span><br><span class="line">ctor A_2</span><br><span class="line">ctor A_1</span><br><span class="line">ctor B</span><br><span class="line">dtor B</span><br><span class="line">dtor A_1</span><br><span class="line">dtor A_2</span><br><span class="line">dtor A_2</span><br><span class="line">dtor A_1</span><br><span class="line">dtor A_3</span><br></pre></td></tr></table></figure>
 
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="http://gaocegege.com/Blog/cpp/cppclass#:~:text=%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E7%9A%84%E9%A1%BA%E5%BA%8F,%E7%B1%BB%E7%9A%84%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E3%80%82">http://gaocegege.com/Blog/cpp/cppclass#:~:text&#x3D;构造函数执行的顺序,类的析构函数。</a></p>
-</div><div class="tags"><a href="/tags/C/C++"><i class="fa fa-tag">C/C++</i></a></div><div class="post-nav"><a class="pre" href="/2022/09/21/awk-learning-note/">awk learning note</a><a class="next" href="/2022/09/20/sizeof%E6%9D%82%E8%B0%88/">sizeof杂谈、内存对齐</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://example.com"/></form></div><div class="widget"><div class="author-info"><a class="info-avatar" href="/about/" title="关于"><img src="/img/avatar.jpg"/></a><p>May you find your worth in waking world.</p><a class="info-icon" href="https://github.com/dapeus" title="Github" target="_blank" style="margin-inline:5px"> <i class="fa fa-github-square" style="margin-inline:5px"></i></a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/C-C/" style="font-size: 15px;">C/C++</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Network-Programing/" style="font-size: 15px;">Network Programing</a> <a href="/tags/game/" style="font-size: 15px;">game</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2023/06/17/%E8%93%9D%E8%89%B2%E5%8D%8F%E8%AE%AE/">蓝色协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/09/30/%E4%BB%8E%E9%98%BB%E5%A1%9EIO%E5%88%B0%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E5%88%B0IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/">从阻塞IO到非阻塞IO到IO多路复用</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/09/30/%E8%BD%AF%E9%93%BE%E6%8E%A5%E5%92%8C%E7%A1%AC%E9%93%BE%E6%8E%A5/">软链接和硬链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/09/28/extern-C/">extern C</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/09/28/%E5%A3%B0%E6%98%8E%E3%80%81%E5%AE%9A%E4%B9%89/">声明、定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/09/27/new-delete%E5%92%8Cmalloc-free%E7%9A%84%E5%85%B1%E5%90%8C%E7%82%B9%E5%92%8C%E5%8C%BA%E5%88%AB/">new/delete和malloc/free的共同点和区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/09/21/awk-learning-note/">awk learning note</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/">C++构造析构顺序</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/09/20/sizeof%E6%9D%82%E8%B0%88/">sizeof杂谈、内存对齐</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2023 <a href="/." rel="nofollow">Dapeus Blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><script type="text/javascript" src="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.js"></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0"></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E6%9E%84%E9%80%A0%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">继承构造顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E4%BB%A3%E7%BB%A7%E6%89%BF%E6%9E%84%E9%80%A0%E9%A1%BA%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">多代继承构造顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E6%9E%84%E9%80%A0%E9%A1%BA%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">初始化列表成员变量构造顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E4%B8%8E%E5%88%97%E8%A1%A8%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">继承与列表初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E7%BB%A7%E6%89%BF%EF%BC%8C%E7%BB%A7%E6%89%BF%EF%BC%8C%E4%B8%8E%E5%88%97%E8%A1%A8%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">5.</span> <span class="toc-text">虚拟继承，继承，与列表初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">6.</span> <span class="toc-text">参考文章</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&text=C++构造析构顺序"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&title=C++构造析构顺序"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&is_video=false&description=C++构造析构顺序"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++构造析构顺序&body=Check out this article: http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&title=C++构造析构顺序"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&title=C++构造析构顺序"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&title=C++构造析构顺序"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&title=C++构造析构顺序"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&name=C++构造析构顺序&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2022/09/21/C-%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E9%A1%BA%E5%BA%8F/&t=C++构造析构顺序"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    Dapeus
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+
       <div id="sakana" style="position:fixed;right:0;bottom:0;"></div>
       <script async onload='initSakanaWidget({"character":"takina","enable":true,"enable_mobile":false,"size":300,"autoFit":false,"bottom":0,"controls":true,"stroke":{"color":"#b4b4b4","width":10},"threshold":0.1,"rotate":0,"position":"left","customCharacters":[]})' src="https://cdn.jsdelivr.net/npm/sakana-widget@2.3.0/lib/sakana.min.js"></script>
       <script>
@@ -81,4 +382,5 @@
         }).mount("#sakana");
       }
   </script>
-    </body></html>
+    </body>
+</html>
